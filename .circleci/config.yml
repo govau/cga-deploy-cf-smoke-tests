@@ -1,0 +1,25 @@
+# Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
+version: 2.1
+
+# Use a package of configuration called an orb, see https://circleci.com/docs/2.0/orb-intro/
+jobs:
+  run:
+    docker:
+      - image: govau/cga-deploy-cf-smoke-tests:latest
+    steps:
+      - checkout
+      - run: ./run.sh
+workflows:
+  run-hourly:
+    triggers:
+      - schedule:
+          cron: "10 * * * *"
+          filters:
+             branches:
+               only:
+                 - master
+    jobs:
+      - run
+  run-now:
+    jobs:
+      - run

@@ -3,24 +3,31 @@ version: 2.1
 
 # Use a package of configuration called an orb, see https://circleci.com/docs/2.0/orb-intro/
 jobs:
-  run:
+  run-staging:
     docker:
       - image: govau/cga-deploy-cf-smoke-tests:latest
     steps:
       - checkout
-      - run: ./run.sh
+      - run: CF_API="${CF_API_STAGING}" CF_PASSWORD="${CF_PASSWORD_STAGING}" ./run.sh 
+  run-prod:
+    docker:
+      - image: govau/cga-deploy-cf-smoke-tests:latest
+    steps:
+      - checkout
+      - run: CF_API="${CF_API_PROD}" CF_PASSWORD="${CF_PASSWORD_PROD}" ./run.sh 
 workflows:
   run-hourly:
     triggers:
       - schedule:
-          # cron: "10 * * * *"
-          cron: "10 0,3,6,9,12,15,18,21 * * *"
+          cron: "10 0,6,12,18 * * *"
           filters:
              branches:
                only:
                  - master
     jobs:
-      - run
+      - run-prod
+      - run-staging
   run-now:
     jobs:
-      - run
+      - run-prod
+      - run-staging

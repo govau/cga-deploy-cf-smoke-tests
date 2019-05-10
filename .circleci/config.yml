@@ -13,7 +13,8 @@ workflows:
   run-hourly:
     triggers:
       - schedule:
-          cron: "10 * * * *"
+          # cron: "10 * * * *"
+          cron: "10 0,3,6,9,12,15,18,21 * * *"
           filters:
              branches:
                only:

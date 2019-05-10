@@ -16,18 +16,23 @@ jobs:
       - checkout
       - run: CF_API="${CF_API_PROD}" CF_PASSWORD="${CF_PASSWORD_PROD}" ./run.sh 
 workflows:
-  run-hourly:
+  run-6hourly:
     triggers:
       - schedule:
-          cron: "10 0,6,12,18 * * *"
+          # 6pm, midnight, and 6am sydney time
+          cron: "10 8,14,20 * * *"
           filters:
-             branches:
-               only:
-                 - master
+            branches:
+              only:
+                - master
     jobs:
-      - run-prod
       - run-staging
+      - run-prod:
+          requires:
+            - run-staging
   run-now:
     jobs:
-      - run-prod
       - run-staging
+      - run-prod:
+          requires:
+            - run-staging

@@ -18,7 +18,7 @@ cat << EOF > ${CONFIG}
     "suite_name": "CF_SMOKE_TESTS",
     "api": "${CF_API}",
     "apps_domain": "${APPS_DOMAIN}",
-    "user": "${CF_USER}",
+    "user": "${CF_USERNAME}",
     "password": "${CF_PASSWORD}",
     "cleanup": true,
     "logging_app": "",

